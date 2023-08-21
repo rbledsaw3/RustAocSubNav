@@ -1,9 +1,14 @@
 fn main() {
     let mut x = 5;
-    let z = &mut x;
 
-    *z = 7;
+    {
+        let z = &mut x;
 
-    println!("{:?}", z);
+        *z = 7;
+    }
+
+    x = 9;
+
+    println!("{:?}", x);
 }
 
