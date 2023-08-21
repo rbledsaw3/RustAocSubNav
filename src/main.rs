@@ -1,7 +1,9 @@
 fn main() {
-    let x = 5;
-    let y = &x;
+    let mut x = 5;
+    let z = &mut x;
 
-    println!("{:?}", x + y);
+    *z = 7;
+
+    println!("{:?}", z);
 }
 
