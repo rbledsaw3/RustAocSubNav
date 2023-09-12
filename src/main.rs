@@ -1,23 +1,24 @@
-fn main() {
-    let foo = Some(5);
+enum Option2<T> {
+    None,
+    Some(T),
+}
 
-    if let Some(value) = foo {
-
-    }
-
-    match foo{
-        Some(value) => {
-
-        },
-        None => {
-
+impl<T> Option2<T> {
+    fn is_some(&self) -> bool {
+        return match self {
+            Option2::None => false,
+            Option2::Some(_) => true,
         }
     }
 
-    foo.map(|x| {
+}
 
-    });
 
-    foo.filter(|x| x < &10);
+fn main() {
+    let foo = Option2::Some(5);
+
+    if foo.is_some() {
+        let value = foo.unwrap();
+    }
 }
 
