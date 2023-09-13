@@ -1,23 +1,33 @@
-fn error_me(throw: bool) -> Result<(), usize> {
-    if throw {
-        return Err(7);
+type Result<V, E> {
+    Err(E),
+    Ok(V)
+}
+
+fn error(num: i32) -> Result<(), usize> {
+    if num < 0 {
+        return Err((num * -1) as usize);
     }
 
     return Ok(());
 }
-
 
 fn main() -> Result<(), usize> {
-    
-    let value = error_me(false)?;
+    let res = error(5);
 
-    if error_me(true).is_ok() {
-        // only does something if Ok()
-        // can be used for checking if file exists or not, etc.
+    if res.is_ok() {
+        // do something
     }
+
+    match res {
+        Err(e) => // ....
+        Ok(v) => // ....
+    }
+
+    let x = res.unwrap_or(());
+    let x = res.expect("THIS BETTER EXIST");
+    let x = res.unwrap(); // BAD IDEA
     
+    let x = res?;
 
     return Ok(());
-
 }
-
