@@ -1,33 +1,21 @@
-type Result<V, E> {
-    Err(E),
-    Ok(V)
-}
+use anyhow::{Result, anyhow, Context};
 
-fn error(num: i32) -> Result<(), usize> {
-    if num < 0 {
-        return Err((num * -1) as usize);
+fn error_me(throw: bool) -> Result<()> {
+    if throw {
+        return Err(anyhow!("this should never be true"));
     }
+
+    std::fs::read(PathBuf::from("/foo")).context("Hey unable to do this")?;
 
     return Ok(());
 }
 
-fn main() -> Result<(), usize> {
-    let res = error(5);
+fn main() -> Result<()> {
+    let value = error_me(false)?;
 
-    if res.is_ok() {
-        // do something
+    if error_me(true).is_ok() {
+        //do something
     }
-
-    match res {
-        Err(e) => // ....
-        Ok(v) => // ....
-    }
-
-    let x = res.unwrap_or(());
-    let x = res.expect("THIS BETTER EXIST");
-    let x = res.unwrap(); // BAD IDEA
-    
-    let x = res?;
 
     return Ok(());
 }
