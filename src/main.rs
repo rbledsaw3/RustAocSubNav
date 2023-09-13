@@ -9,13 +9,13 @@ fn error_me(throw: bool) -> Result<(), usize> {
 
 fn main() -> Result<(), usize> {
     
-    error_me(false)?;
+    let value = error_me(false)?;
 
-    // This is the same as:
-    // let value = match error_me(false) {
-        // Err(e) => return Err(e),
-        // Ok(v) => v,
-    // };
+    if error_me(true).is_ok() {
+        // only does something if Ok()
+        // can be used for checking if file exists or not, etc.
+    }
+    
 
     return Ok(());
 
