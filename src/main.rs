@@ -1,21 +1,40 @@
-use anyhow::{Result, anyhow, Context};
-
-fn error_me(throw: bool) -> Result<()> {
-    if throw {
-        return Err(anyhow!("this should never be true"));
-    }
-
-    std::fs::read(PathBuf::from("/foo")).context("Hey unable to do this")?;
-
-    return Ok(());
+fn get_input() -> &'static str {
+    return "forward 5
+down 5
+forward 8
+up 3
+down 8
+forward 2";
 }
 
-fn main() -> Result<()> {
-    let value = error_me(false)?;
+#[derive(Debug)]
+struct Point {
+    x: i32,
+    y: i32,
+}
 
-    if error_me(true).is_ok() {
-        //do something
+fn parse_line(line: &str) -> Point {
+    let (dir, amount) = line.split_once(" ").expect("must contain a whitespace");
+    let amount: i32 = str::parse(amount).expect("amount must be a number");
+
+    if dir == "forward" {
+        return Point { x: amount, y: 0 };
+    } else if dir == "up" {
+        return Point { x: 0, y: -amount };
     }
+    return Point { x: 0, y: amount };
+}
 
-    return Ok(());
+
+fn main() {
+   let result = get_input()
+       .lines()
+       .map(parse_line)
+       .fold(Point {x: 0, y: 0}, |mut acc, point| {
+            acc.x += point.x;
+            acc.y += point.y;
+            return acc;
+       });
+
+   println!("{:?}", result);
 }
