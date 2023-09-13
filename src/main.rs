@@ -1,37 +1,23 @@
-enum Option2<T> {
-    None,
-    Some(T),
-}
-
-impl<T> Option2<T> {
-    pub fn map(&self, f: fn(&T) -> T) -> Option2<T> {
-        return match self {
-            Option2::None => Option2::None,
-            Option2::Some(value) => Option2::Some(f(value)),
-        }
+fn error_me(throw: bool) -> Result<(), usize> {
+    if throw {
+        return Err(7);
     }
 
-    pub fn is_some(&self) -> bool {
-        return match self {
-            Option2::None => false,
-            Option2::Some(_) => true,
-        }
-    }
-
+    return Ok(());
 }
 
 
-fn main() {
-    let opt = Some(5);
-    let foo = Option2::Some(5);
+fn main() -> Result<(), usize> {
+    
+    error_me(false)?;
 
-    opt.map(|x| x + 5);
-    let foo = foo.map(|x| x + 5);
+    // This is the same as:
+    // let value = match error_me(false) {
+        // Err(e) => return Err(e),
+        // Ok(v) => v,
+    // };
 
-    if foo.is_some() {
-        println!("foo is some");
-    } else {
-        println!("foo is none");
-    }
+    return Ok(());
+
 }
 
